@@ -27,6 +27,7 @@
 
 import UIKit
 import Photos
+import PhotosUI
 //屏宽
 let kScreenWidth = UIScreen.main.bounds.size.width
 //屏高
@@ -445,6 +446,12 @@ public class HEPhotoPickerViewController: HEBaseViewController {
     }
     private func fetchPhotoModels(photos:PHFetchResult<PHAsset>){
         models =  [HEPhotoAsset]()
+        if photos.count == 0 {
+            if #available(iOS 14, *) {
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+            }
+            return
+        }
         photos.enumerateObjects {[weak self] (asset, index, ff) in
             let model = HEPhotoAsset.init(asset: asset)
             self?.checkIsSingle(model: model)
@@ -459,7 +466,14 @@ public class HEPhotoPickerViewController: HEBaseViewController {
             let asset = PHAsset.fetchAssets(in: collection, options: self!.photosOptions)
             let album = HEAlbum.init(result: asset, title: collection.localizedTitle)
             if asset.count > 0 && collection.localizedTitle != "最近删除" &&  collection.localizedTitle != "Recently Deleted"{
+                if collection.localizedTitle == "所有照片"
+                    || collection.localizedTitle == "All Photos"
+                    || collection.localizedTitle == "相机胶卷"
+                    || collection.localizedTitle == "Camera Roll" {
+                    self?.albumModels.insert(album, at: 0)
+                }else{
                     self?.albumModels.append(album)
+                }
             }
         }
     }
