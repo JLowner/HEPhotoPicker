@@ -34,7 +34,7 @@ public protocol HETargetViewControllerDelegate : UIViewController {
      func getTargetImageView() -> UIImageView
 }
 //MARK: - 定义协议用来拿到图片起始位置;最终位置和图片
-public protocol HEPhotoBrowserAnimatorPushDelegate : class {
+public protocol HEPhotoBrowserAnimatorPushDelegate : AnyObject {
     
     /// 获取图片动画前的位置
     ///
@@ -52,7 +52,7 @@ public protocol HEPhotoBrowserAnimatorPushDelegate : class {
     
 }
 
-public protocol HEPhotoBrowserAnimatorPopDelegate : class{
+public protocol HEPhotoBrowserAnimatorPopDelegate : AnyObject{
     /// 获取当前浏览的图片的下标
     ///
     /// - Returns: 当前浏览图片的下标
