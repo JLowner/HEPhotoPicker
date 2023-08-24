@@ -49,9 +49,14 @@ class HEPhotoBrowserViewController: HEBaseViewController {
     
     private lazy var todoArray = [HEPhotoAsset]()
     private let barHeight : CGFloat = 130
+    
+    // added by gaoyx
+    private var naviBarHeight: CGFloat {
+        UIApplication.shared.delegate!.window!!.safeAreaInsets.top + 44
+    }
+    
     private lazy var bootomBar : UIView = {
-        let navigationMaxY : CGFloat = UIDevice.isContansiPhoneX() ? 88 : 64
-        let view = UIView.init(frame: CGRect.init(x: 0, y: self.view.bounds.size.height -  barHeight -  navigationMaxY , width: self.view.bounds.width, height: barHeight))
+        let view = UIView.init(frame: CGRect.init(x: 0, y: self.view.bounds.size.height -  barHeight -  0 , width: self.view.bounds.width, height: barHeight))
         view.backgroundColor = UIColor.init(r: 50, g: 50, b: 50, a: 0.3)
         view.addSubview(bottomCollectionView)
         view.isHidden = true
@@ -85,7 +90,7 @@ class HEPhotoBrowserViewController: HEBaseViewController {
         btn.setImage(pickerOptions.unselectedImage, for: .normal)
         btn.addTarget(self, action: #selector(selectedBtnClick(_:)), for: .touchUpInside)
         let btnW : CGFloat = 30
-        btn.frame = CGRect.init(x:self.view.bounds.width - 10 - btnW, y: 10, width: btnW, height: btnW)
+        btn.frame = CGRect.init(x:self.view.bounds.width - 10 - btnW, y: naviBarHeight + 10, width: btnW, height: btnW)
         return btn
     }()
     private let layout = UICollectionViewFlowLayout.init()
@@ -94,8 +99,7 @@ class HEPhotoBrowserViewController: HEBaseViewController {
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         layout.scrollDirection = .horizontal
-        let y : CGFloat = UIDevice.isContansiPhoneX() ? -88 : -64
-        let collectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: y, width: kScreenWidth, height: kScreenHeight), collectionViewLayout: layout)
+        let collectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight), collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
